@@ -107,8 +107,8 @@ const scriptSrcUrls = [
     "https://rawgit.com/",
     "https://warm-forest-49475.herokuapp.com",
     "https://cdnjs.cloudflare.com/ajax/libs/font-awesome",
-    "https://pure-brushlands-42473.herokuapp.com",
-    "https://unpkg.com/"
+    "https://unpkg.com/",
+    "https://dinoclinic-production.up.railway.app"
 
 ];
 const styleSrcUrls = [
