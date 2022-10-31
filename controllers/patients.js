@@ -19,6 +19,14 @@ var diff = date.getTime() - invdate.getTime();
 return new Date(date.getTime() - diff); // needs to substract
 
 }
+function convertUTCFromSettedDate(date){
+    invdate = new Date(`${new Date(date).toLocaleString('en-US', { timeZone: 'America/Mexico_City' })} GMT`)
+ 
+    // and the diff is 5 hours
+    // var diff = date.getTime() - invdate.getTime();
+    // so 12:00 in Toronto is 17:00 UTC
+    return invdate;
+}
     
 
 function escapeRegExp(string) {
@@ -102,7 +110,7 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.updatePatient = async (req, res) => {
     const { id } = req.params;
-    req.body.patient.admissionDate = new Date(convertUTCDateToLocalDate(req.body.patient.admissionDate));
+    req.body.patient.admissionDate = convertUTCFromSettedDate(req.body.patient.admissionDate);
     const patient = await Patient.findByIdAndUpdate(id, { ...req.body.patient });
     await patient.save();
     req.flash('success', 'Paciente actualizado correctamente!');
