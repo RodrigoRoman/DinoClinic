@@ -16,7 +16,7 @@ function debounce(f, delay){
 }
   
 // populate body with found elements
-$('#search_val').keyup(foundServices);
+$('#search_val').keyup(debounce(foundSupplies));
 
   $("body").delegate(".individual", "click",function(event) {
     $("#search_val").val($(this).val())

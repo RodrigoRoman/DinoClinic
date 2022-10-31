@@ -32,21 +32,19 @@ mongoose.connect(dbUrl, {
     useUnifiedTopology: true,
     useFindAndModify: false
 });
+
 function convertUTCDateToLocalDate(date) {
 
-    date = new Date(date);
+invdate = new Date(`${date.toLocaleString('en-US', { timeZone: 'America/Mexico_City' })} GMT`)
 
-    var localOffset = date.getTimezoneOffset() * 60000;
+// and the diff is 5 hours
+var diff = date.getTime() - invdate.getTime();
 
-    var localTime = date.getTime();
+// so 12:00 in Toronto is 17:00 UTC
+return new Date(date.getTime() - diff); // needs to substract
 
-    date = localTime - localOffset;
-
-    //date = new Date(date);
-
-    return date;
-
-    }
+}
+    
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", () => {
