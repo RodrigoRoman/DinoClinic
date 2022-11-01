@@ -90,7 +90,7 @@ module.exports.renderNewForm = (req, res) => {
 
 module.exports.createPatient = async (req, res, next) => {
     const patient = new Patient(req.body.patient);
-    const nDate = new Date(convertUTCDateToLocalDate(new Date))
+    const nDate = convertUTCDateToLocalDate(new Date);
     patient.author = req.user._id;
     patient.admissionDate = nDate;
     await patient.save();
@@ -110,7 +110,7 @@ module.exports.renderEditForm = async (req, res) => {
 
 module.exports.updatePatient = async (req, res) => {
     const { id } = req.params;
-    req.body.patient.admissionDate = convertUTCFromSettedDate(req.body.patient.admissionDate);
+    req.body.patient.admissionDate = new Date(req.body.patient.admissionDate+':00.000Z');
     const patient = await Patient.findByIdAndUpdate(id, { ...req.body.patient });
     await patient.save();
     req.flash('success', 'Paciente actualizado correctamente!');
@@ -613,15 +613,14 @@ module.exports.updateServiceFromAccount = async (req, res) => {
 }
 
 
-
 module.exports.updateTimeService = async (req, res) => {
     const service = await Service.findById(req.body.serviceID);
     const patient = await Patient.findById(req.params.id);
-    const nDate = new Date(convertUTCDateToLocalDate(new Date))
+    const nDate = convertUTCDateToLocalDate(new Date);
     // let transact = await Transaction.findById(req.body.trans_id);
     let toggle = req.body.toggle == "true";
-    let start = new Date(convertUTCDateToLocalDate(new Date(req.body.start))),
-        end = (toggle)?nDate:new Date(convertUTCDateToLocalDate(new Date(req.body.until)));
+    let start = new Date(req.body.start+":01.000Z"),
+        end = (toggle)?nDate:new Date(req.body.until+":01.000Z");
     //calculate the unit time in miliseconds
     let miliUnit = (service.unit == "Dia")?(86400*1000):(3600*1000);
     //divide the difference between start and end batween the miliseconds unit
