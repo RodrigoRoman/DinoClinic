@@ -6,6 +6,13 @@
   margin: 0px 0px 0px 0px !important;
 }
 
+
+.reduced {
+  font-size: 10% !important;
+  color: #0f71bd;
+  line-height: 1 !important;
+}
+
 .scrollDiv {
   height:800px;
   overflow-y: scroll;
@@ -785,4 +792,11 @@ a.closeAlert.disabled {
 }
 .btn-toggle.active {
   background-color: #808080;
+}
+
+body {
+  font-size: 15;
+  font-weight: 200;
+  line-height: 1.5;
+
 }

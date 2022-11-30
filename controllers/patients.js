@@ -404,7 +404,7 @@ module.exports.accountToPDF = async (req,res) =>{
     // await page.goto(`https://warm-forest-49475.herokuapp.com/patients/${req.params.id}/showAccount?begin=${begin}&end=${end}`,{
     //     waitUntil: 'networkidle0'});          // go to site
     await page.goto(
-        `https://dinoclinic-production.up.railway.app/patients/${req.params.id}/showAccount?begin=${begin}&end=${end}`,{
+        `http://localhost:3000/patients/${req.params.id}/showAccount?begin=${begin}&end=${end}`,{
           waitUntil: 'networkidle0'});
 
     const dom = await page.$eval('.toPDF', (element) => {
@@ -412,13 +412,23 @@ module.exports.accountToPDF = async (req,res) =>{
     }) // Get DOM HTML
     await page.setContent(dom)   // HTML markup to assign to the page for generate pdf
     await page.addStyleTag({url: "https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"});
-    await page.addStyleTag({content: `.image_print{
-        position:absolute;
-        top:50px;
-        left:20px;
-        width:250px;
-        height: 120px;
-      }`})
+    await page.addStyleTag({content: 
+        `.image_print{
+            position:absolute;
+            top:0px;
+            left:20px;
+            width:250px;
+            height: 220px;
+        }
+        .subRed {
+            font-size: 70% !important;
+            line-height: 1 !important;
+          }
+            .reduced {
+                font-size: 60% !important;
+                line-height: 1 !important;
+              }
+      `})
     const pdf = await page.pdf({landscape: false})
     await browser.close(); 
     res.contentType("application/pdf");
@@ -444,11 +454,11 @@ module.exports.dischAccountPDF = async (req,res) =>{
     
     // await page.goto(`https://pure-brushlands-42473.herokuapp.com/patients/${req.params.id}/showAccount?begin=${begin}&end=${end}`,{
     //     waitUntil: 'networkidle0'}); 
-    await page.goto(`https://dinoclinic-production.up.railway.app/patients/${req.params.id}/showDischarged`,{
-        waitUntil: 'networkidle0'});          // go to site
-    // await page.goto(
-    //     `http://localhost:3000/patients/${req.params.id}/showDischarged`,{
-    //       waitUntil: 'networkidle0'});
+    // await page.goto(`https://dinoclinic-production.up.railway.app/patients/${req.params.id}/showDischarged`,{
+    //     waitUntil: 'networkidle0'});          // go to site
+    await page.goto(
+        `http://localhost:3000/patients/${req.params.id}/showDischarged`,{
+          waitUntil: 'networkidle0'});
 
     const dom = await page.$eval('.toPDF', (element) => {
         return element.innerHTML
@@ -457,11 +467,20 @@ module.exports.dischAccountPDF = async (req,res) =>{
     await page.addStyleTag({url: "https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/css/bootstrap.min.css"});
     await page.addStyleTag({content: `.image_print{
         position:absolute;
-        top:50px;
+        top:0px;
         left:20px;
         width:250px;
-        height: 120px;
-      }`})
+        height: 220px;
+    }
+    .subRed {
+        font-size: 70% !important;
+        line-height: 1 !important;
+      }
+        .reduced {
+            font-size: 60% !important;
+            line-height: 1 !important;
+          }
+      `})
     const pdf = await page.pdf({landscape: false})
     await browser.close(); 
     res.contentType("application/pdf");
